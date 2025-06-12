@@ -1,15 +1,24 @@
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./auth/AuthContext";
+import Login from "./pages/Login";
+import { Home } from "./pages/Home";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+import Navbar from "./components/Navbar";
+import { Benchmark } from "./pages/Benchmark";
+import { Users } from "./pages/Users";
 
-function App() {
-
-
+export default function App() {
   return (
-    <>
-      <div className="">
-        <h1 className="text-3xl font-bold text-blue-700">Tailwind funcionando!</h1>
-      </div>  
-    </>
-  )
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/benchmark" element={<ProtectedRoute><Benchmark /></ProtectedRoute>} />
+          <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
-
-export default App
