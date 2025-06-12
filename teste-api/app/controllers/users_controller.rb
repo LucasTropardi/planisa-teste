@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_admin!, except: [:show]
+  before_action :require_admin!, except: [:show, :me]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
