@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import type { User } from "../types/User";
 import { getUsers, deleteUser } from "../services/UserService";
-import { Button, Table, TableRow, TableHead, TableCell, TableBody } from "@mui/material";
 import { UserForm } from "../components/UserForm";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export function Users() {
   const [users, setUsers] = useState<User[]>([]);
@@ -26,52 +27,68 @@ export function Users() {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="pt-6 pb-6">
       <h1 className="text-2xl font-bold mb-4">Usuários</h1>
-      <Button
-        variant="contained"
-        color="primary"
-        className="mb-4"
+      <button
+        className="mb-4 px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700"
         onClick={() => {
           setUserToEdit(undefined);
           setFormOpen(true);
         }}
       >
-        Novo Usuário
-      </Button>
+        NOVO USUÁRIO
+      </button>
 
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Nome</TableCell>
-            <TableCell>Usuário</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Ações</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((u) => (
-            <TableRow key={u.id}>
-              <TableCell>{u.nome}</TableCell>
-              <TableCell>{u.usuario}</TableCell>
-              <TableCell>{u.role}</TableCell>
-              <TableCell>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={() => {
-                    setUserToEdit(u);
-                    setFormOpen(true);
-                  }}
-                >
-                  Editar
-                </Button>
-                <Button variant="outlined" size="small" color="error" onClick={() => handleDelete(u.id)}>Excluir</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs uppercase bg-gray-50">
+            <tr>
+              <th className="px-6 py-3">Nome</th>
+              <th className="px-6 py-3">Usuário</th>
+              <th className="px-6 py-3">Role</th>
+              <th className="px-6 py-3 text-right">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u, index) => (
+              <tr
+                key={u.id}
+                className={`border-b ${
+                  index % 2 === 0
+                    ? "bg-white"
+                    : "bg-gray-50"
+                }`}
+              >
+                <td className="px-6 py-4 font-medium text-gray-900">
+                  {u.nome}
+                </td>
+                <td className="px-6 py-4">{u.usuario}</td>
+                <td className="px-6 py-4">{u.role}</td>
+                <td className="px-6 py-4 text-right space-x-2">
+                  <button
+                    title="Editar"
+                    onClick={() => {
+                      setUserToEdit(u);
+                      setFormOpen(true);
+                    }}
+                    className="text-blue-600 hover:underline mr-2"
+                  >
+                    <EditIcon fontSize="small" />
+                  </button>
+                  <button
+                    title="Excluir"
+                    onClick={() => handleDelete(u.id)}
+                    className="text-red-600 hover:underline"
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       <UserForm
         open={formOpen}
         onClose={() => setFormOpen(false)}

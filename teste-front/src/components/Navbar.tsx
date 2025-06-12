@@ -1,55 +1,83 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/useAuth";
+import LogoutIcon from "@mui/icons-material/Logout";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  // Esconde a navbar na rota de login
   if (location.pathname === "/login") return null;
 
-  return (
-    <AppBar position="static" color="primary">
-      <Toolbar className="flex justify-between">
-        <Box className="flex items-center gap-4">
-          <Typography variant="h6" component="div">
-            Bem-vindo, {user?.nome}
-          </Typography>
+  const handleLogout = () => {
+    setDialogOpen(false);
+    logout();
+  };
 
+  return (
+    <nav className="bg-white border-b border-gray-200">
+      <div className="mb-4 flex justify-between items-center">
+        <div className="text-2xl font-semibold">
+          {user?.nome}
+        </div>
+
+        <div className="flex space-x-6">
+          <Link
+            to="/"
+            className="text-gray-900 hover:text-blue-700"
+          >
+            Home
+          </Link>
           {user?.role === "admin" && (
-            <Button
-              component={Link}
+            <Link
               to="/users"
-              variant="outlined"
-              color="inherit"
-              size="small"
+              className="text-gray-900 hover:text-blue-700"
             >
               Usuários
-            </Button>
+            </Link>
           )}
-
-          <Button
-            component={Link}
+          <Link
             to="/benchmark"
-            variant="outlined"
-            color="inherit"
-            size="small"
+            className="text-gray-900 hover:text-blue-700"
           >
             Benchmark
-          </Button>
-        </Box>
+          </Link>
+        </div>
 
-        <Button
-          color="inherit"
-          onClick={logout}
-          variant="outlined"
-          size="small"
+        <button
+          onClick={() => setDialogOpen(true)}
+          className="flex items-center gap-2 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2"
+          title="Sair"
         >
-          Logout
-        </Button>
-      </Toolbar>
-    </AppBar>
+          <LogoutIcon fontSize="small" />
+          
+        </button>
+      </div>
+
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <DialogTitle>Confirmar Logout</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza de que deseja sair do sistema?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)}>Cancelar</Button>
+          <Button onClick={handleLogout} color="error" variant="contained">
+            Sair
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </nav>
   );
 };
 

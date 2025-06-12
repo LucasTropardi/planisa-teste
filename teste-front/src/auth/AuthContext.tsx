@@ -2,21 +2,8 @@
 import { createContext, useEffect, useState } from "react";
 import { getToken, logout } from "./authService";
 import { api } from "../api/api";
-
-interface User {
-  id: number;
-  nome: string;
-  usuario: string;
-  role: "admin" | "user";
-}
-
-interface AuthContextType {
-  isAuthenticated: boolean;
-  token: string | null;
-  user: User | null;
-  login: (token: string) => void;
-  logout: () => void;
-}
+import type { User } from "../types/User";
+import type { AuthContextType } from "../types/AuthContextType";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
