@@ -8,4 +8,6 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :create, :update, :destroy]
 
+  get "/countries", to: "countries#index"
+
 end
