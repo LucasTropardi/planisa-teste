@@ -26,6 +26,11 @@ export const UserForm = ({ open, onClose, onSave, userToEdit }: UserFormProps) =
     password: "",
     password_confirmation: "",
   });
+  const [errorDialog, setErrorDialog] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: "",
+  });
+
 
   useEffect(() => {
     if (userToEdit) {
@@ -58,7 +63,7 @@ export const UserForm = ({ open, onClose, onSave, userToEdit }: UserFormProps) =
 
     // Validação: se vai enviar senha, ela precisa bater com a confirmação
     if (preenchendoSenha && form.password !== form.password_confirmation) {
-      alert("As senhas não coincidem.");
+      setErrorDialog({ open: true, message: "As senhas não coincidem." });
       return;
     }
 
@@ -76,62 +81,77 @@ export const UserForm = ({ open, onClose, onSave, userToEdit }: UserFormProps) =
       onSave();
       onClose();
     } catch (err) {
-      alert("Erro ao salvar usuário" + (err instanceof Error ? `: ${err.message}` : ""));
+      setErrorDialog({ open: true, message: "Erro ao salvar usuário" + (err instanceof Error ? `: ${err.message}` : "") });
     }
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{userToEdit ? "Editar Usuário" : "Novo Usuário"}</DialogTitle>
-      <DialogContent className="space-y-4 mt-2">
-        <TextField
-          label="Nome"
-          name="nome"
-          fullWidth
-          value={form.nome}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Usuário"
-          name="usuario"
-          fullWidth
-          value={form.usuario}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Senha"
-          name="password"
-          type="password"
-          fullWidth
-          value={form.password}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Confirmar Senha"
-          name="password_confirmation"
-          type="password"
-          fullWidth
-          value={form.password_confirmation}
-          onChange={handleChange}
-        />
-        <TextField
-          select
-          label="Role"
-          name="role"
-          fullWidth
-          value={form.role}
-          onChange={handleChange}
-        >
-          <MenuItem value="user">Usuário</MenuItem>
-          <MenuItem value="admin">Administrador</MenuItem>
-        </TextField>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleSubmit} variant="contained" color="primary">
-          Salvar
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <>
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>{userToEdit ? "Editar Usuário" : "Novo Usuário"}</DialogTitle>
+        <DialogContent className="space-y-4 mt-2">
+          <TextField
+            label="Nome"
+            name="nome"
+            fullWidth
+            variant="outlined"
+            margin="dense"
+            value={form.nome}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Usuário"
+            name="usuario"
+            fullWidth
+            value={form.usuario}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Senha"
+            name="password"
+            type="password"
+            fullWidth
+            value={form.password}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Confirmar Senha"
+            name="password_confirmation"
+            type="password"
+            fullWidth
+            value={form.password_confirmation}
+            onChange={handleChange}
+          />
+          <TextField
+            select
+            label="Role"
+            name="role"
+            fullWidth
+            value={form.role}
+            onChange={handleChange}
+          >
+            <MenuItem value="user">Usuário</MenuItem>
+            <MenuItem value="admin">Administrador</MenuItem>
+          </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancelar</Button>
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            Salvar
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={errorDialog.open} onClose={() => setErrorDialog({ open: false, message: "" })}>
+        <DialogTitle>Atenção</DialogTitle>
+        <DialogContent>
+          <p>{errorDialog.message}</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setErrorDialog({ open: false, message: "" })} variant="contained" color="primary" autoFocus>
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };

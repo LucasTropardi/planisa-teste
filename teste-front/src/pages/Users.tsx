@@ -4,22 +4,32 @@ import { getUsers, deleteUser } from "../services/UserService";
 import { UserForm } from "../components/UserForm";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 
 export function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [formOpen, setFormOpen] = useState(false);
   const [userToEdit, setUserToEdit] = useState<User | undefined>();
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
 
   const fetch = async () => {
     const data = await getUsers();
     setUsers(data);
   };
 
-  const handleDelete = async (id: number) => {
-    if (confirm("Deseja excluir este usuário?")) {
-      await deleteUser(id);
-      fetch();
-    }
+  const handleDelete = async () => {
+    if (userIdToDelete === null) return;
+    await deleteUser(userIdToDelete);
+    setConfirmDialogOpen(false);
+    setUserIdToDelete(null);
+    fetch();
   };
 
   useEffect(() => {
@@ -77,7 +87,10 @@ export function Users() {
                   </button>
                   <button
                     title="Excluir"
-                    onClick={() => handleDelete(u.id)}
+                    onClick={() => {
+                      setUserIdToDelete(u.id);
+                      setConfirmDialogOpen(true);
+                    }}
                     className="text-red-600 hover:underline"
                   >
                     <DeleteIcon fontSize="small" />
@@ -95,6 +108,20 @@ export function Users() {
         onSave={fetch}
         userToEdit={userToEdit}
       />
+
+      <Dialog open={confirmDialogOpen} onClose={() => setConfirmDialogOpen(false)}>
+        <DialogTitle>Confirmar Exclusão</DialogTitle>
+        <DialogContent>
+          <p>Tem certeza que deseja excluir este usuário?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDialogOpen(false)}>Cancelar</Button>
+          <Button onClick={handleDelete} color="error" variant="contained">
+            Excluir
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 }
