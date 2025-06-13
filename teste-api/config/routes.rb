@@ -6,8 +6,10 @@ Rails.application.routes.draw do
 
   get '/me', to: 'users#me'
 
+  get "/countries", to: "countries#index"
+
   resources :users, only: [:index, :show, :create, :update, :destroy]
 
-  get "/countries", to: "countries#index"
+  resources :comparisons, only: [:create, :index, :show, :destroy]
 
 end
