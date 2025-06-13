@@ -16,7 +16,7 @@ class ComparisonService
       end_date: @end_date
     )
 
-    # Fetch results for both countries and dates
+    # Obtem resultados para os parâmetros fornecidos
     results = []
 
     [[@country1, @start_date], [@country1, @end_date],

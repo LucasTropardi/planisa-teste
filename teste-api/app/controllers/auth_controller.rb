@@ -1,6 +1,7 @@
 class AuthController < ApplicationController
   skip_before_action :authorize_request
 
+  # POST /login
   def login
     user = User.find_by(usuario: params[:usuario])
     if user&.authenticate(params[:password])

@@ -1,4 +1,7 @@
 class ComparisonsController < ApplicationController
+  require_admin!
+
+  # POST /comparisons
   def create
     comparison = ComparisonService.new(comparison_params).perform
     render json: comparison.to_json(include: :results), status: :created
@@ -6,11 +9,13 @@ class ComparisonsController < ApplicationController
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  # GET /comparisons
   def index
     comparisons = Comparison.includes(:results).all
     render json: comparisons.to_json(include: :results)
   end
 
+  # GET /comparisons/:id
   def show
     comparison = Comparison.includes(:results).find_by(id: params[:id])
     if comparison
@@ -20,8 +25,9 @@ class ComparisonsController < ApplicationController
     end
   end
 
+  # DELETE /comparisons/:id
   def destroy
-    unless current_user&.role == 'admin'
+    unless current_user&.role == 'admin' # Somente admin exclui
       render json: { error: 'Acesso restrito' }, status: :forbidden
       return
     end
