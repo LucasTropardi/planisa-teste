@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_admin!, except: [:show, :me]
+  before_action :require_admin!, except: [:show, :me, :update]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -34,7 +34,18 @@ class UsersController < ApplicationController
 
   # PUT/PATCH /users/:id
   def update
-    if @user.update(user_params)
+    unless current_user == @user || current_user.role == 'admin'
+      return render json: { error: 'Acesso negado' }, status: :forbidden
+    end
+
+    # Evitar que o usuário altere a role dele mesmo
+    filtered_params = if current_user.role == 'admin'
+                        user_params
+                      else
+                        user_params.except(:role)
+                      end
+
+    if @user.update(filtered_params)
       render json: @user
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
