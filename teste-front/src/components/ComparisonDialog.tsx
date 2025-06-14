@@ -50,6 +50,8 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
   }, []);
 
   useEffect(() => {
+    if (!open) return;
+
     if (comparison) {
       setForm({
         name: comparison.name,
@@ -69,7 +71,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
       });
       setCreatedComparison(null);
     }
-  }, [comparison]);
+  }, [open, comparison]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -297,7 +299,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
                   <li><span className="text-blue-600 font-semibold">Azul</span>: {form.country1_iso}</li>
                   <li><span className="text-red-600 font-semibold">Vermelho</span>: {form.country2_iso}</li>
                   <li>As variações indicam a evolução entre as datas.</li>
-                  <li>O índice de tendência mede o ritmo de crescimento ou queda.</li>
+                  <li>O índice de tendência aponta o ritmo de crescimento ou queda.</li>
                 </ul>
               </div>
             </div>

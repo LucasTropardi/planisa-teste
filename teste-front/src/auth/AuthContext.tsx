@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     login: handleLogin,
     logout: handleLogout,
+    setUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -35,7 +35,8 @@ export function Benchmark() {
 
   const handleNew = () => {
     setComparisonToView(undefined);
-    setFormOpen(true);
+    setFormOpen(false);
+    setTimeout(() => setFormOpen(true), 0); // força reabertura limpa
   };
 
   const handleView = async (id: number) => {
@@ -139,7 +140,7 @@ export function Benchmark() {
 
       {/* Diálogo do benchmark */}
       <ComparisonDialog
-        key={comparisonToView?.id || "new"} // Garante que o diálogo seja re-renderizado ao abrir um novo
+        key={comparisonToView?.id || "new"} // key para forçar re-renderização
         open={formOpen}
         onClose={handleCloseForm}
         comparison={comparisonToView}
