@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -22,6 +22,10 @@ export default function Login() {
     open: false,
     message: "",
   });
+
+  useEffect(() => {
+    document.title = "CovidAnalytics - Login";
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

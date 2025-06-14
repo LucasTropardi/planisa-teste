@@ -58,7 +58,7 @@ const Navbar = () => {
               to="/benchmark"
               className="text-gray-900 hover:text-blue-700"
             >
-              Benchmark
+              Benchmarks
             </Link>
           </div>
 

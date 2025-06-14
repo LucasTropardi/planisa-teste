@@ -19,6 +19,10 @@ export function Users() {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
 
+  useEffect(() => {
+    document.title = "CovidAnalytics - Usuários";
+  }, []);
+
   const fetch = async () => {
     const data = await getUsers();
     setUsers(data);

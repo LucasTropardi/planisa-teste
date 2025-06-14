@@ -27,6 +27,9 @@ export function Benchmark() {
   const [formOpen, setFormOpen] = useState(false);
   const [comparisonToView, setComparisonToView] = useState<ComparisonDetails | undefined>();
 
+  useEffect(() => {
+    document.title = "CovidAnalytics - Benchmarks";
+  }, []);
 
   const fetch = async () => {
     const data = await getComparisons();
