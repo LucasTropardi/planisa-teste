@@ -1,5 +1,4 @@
 class ComparisonsController < ApplicationController
-  require_admin!
 
   # POST /comparisons
   def create

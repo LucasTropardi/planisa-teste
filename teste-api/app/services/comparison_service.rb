@@ -8,41 +8,41 @@ class ComparisonService
   end
 
   def perform
-    comparison = Comparison.create!(
-      name: @name,
-      country1_iso: @country1,
-      country2_iso: @country2,
-      start_date: @start_date,
-      end_date: @end_date
-    )
-
-    # Obtem resultados para os parâmetros fornecidos
-    results = []
-
-    [[@country1, @start_date], [@country1, @end_date],
-     [@country2, @start_date], [@country2, @end_date]].each do |iso, date|
-      data = CovidApiService.fetch(iso, date)
-      raise "Erro ao consultar API para #{iso} - #{date}" unless data
-
-      result = comparison.results.create!(
-        iso: iso,
-        date: date,
-        confirmed: data["confirmed"],
-        confirmed_diff: data["confirmed_diff"],
-        deaths: data["deaths"],
-        deaths_diff: data["deaths_diff"],
-        recovered: data["recovered"],
-        recovered_diff: data["recovered_diff"],
-        active: data["active"],
-        active_diff: data["active_diff"],
-        fatality_rate: data["fatality_rate"]
+    ActiveRecord::Base.transaction do
+      comparison = Comparison.create!(
+        name: @name,
+        country1_iso: @country1,
+        country2_iso: @country2,
+        start_date: @start_date,
+        end_date: @end_date
       )
-      results << result
+
+      results = []
+
+      [[@country1, @start_date], [@country1, @end_date],
+      [@country2, @start_date], [@country2, @end_date]].each do |iso, date|
+        data = CovidApiService.fetch(iso, date)
+        raise ActiveRecord::Rollback, "Dados ausentes para #{iso} - #{date}" if data.nil?
+
+        results << comparison.results.create!(
+          iso: iso,
+          date: date,
+          confirmed: data["confirmed"],
+          confirmed_diff: data["confirmed_diff"],
+          deaths: data["deaths"],
+          deaths_diff: data["deaths_diff"],
+          recovered: data["recovered"],
+          recovered_diff: data["recovered_diff"],
+          active: data["active"],
+          active_diff: data["active_diff"],
+          fatality_rate: data["fatality_rate"]
+        )
+      end
+
+      calculate_variations(comparison, results)
+
+      comparison
     end
-
-    calculate_variations(comparison, results)
-
-    comparison
   end
 
   private
