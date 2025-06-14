@@ -1,54 +1,69 @@
-# React + TypeScript + Vite
+# Front-end do Sistema CovidAnalytics
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o front-end da aplicação **CovidAnalytics**, um sistema web para comparação de dados da pandemia de COVID-19 entre países. O projeto foi desenvolvido com **React + TypeScript** e utiliza gráficos interativos, autenticação JWT e comunicação com uma API Rails para gerenciamento de benchmarks.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Tela de login protegida com autenticação JWT
+- Página inicial com explicação do sistema
+- Listagem e criação de comparações entre países
+- Visualização de gráficos comparativos (casos, mortes e taxa de letalidade)
+- Página de usuários com gestão de roles (apenas para administradores)
+- Navbar dinâmica com nome do usuário e opções conforme perfil
+- Atualização de dados do próprio usuário (nome, usuário e senha)
+- Estilização com Tailwind CSS e Material UI (MUI)
 
-## Expanding the ESLint configuration
+## Tecnologias utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** com **TypeScript**
+- **Vite** para build e dev server
+- **Tailwind CSS** para estilização
+- **Material UI (MUI)** para componentes
+- **React Router DOM** para rotas
+- **Recharts** para gráficos
+- **JWT** para autenticação
+- **Fetch** encapsulado no arquivo `api.ts`
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Estrutura de Pastas
+
+- `src/`
+  - `auth/`: contexto e serviços de autenticação
+  - `components/`: componentes reutilizáveis (Navbar, Diálogos)
+  - `pages/`: páginas principais da aplicação (Login, Home, Comparisons, Users)
+  - `routes/`: proteções para rotas autenticadas e rotas para administrador
+  - `services/`: serviços de comunicação com a API
+  - `types/`: tipos e interfaces TypeScript
+  - `utils/`: utilitários, como formatadores de data
+
+## Instalação e execução
+
+1. Clonar o projeto:
+
+```bash
+git clone <repositorio_frontend>
+cd teste-front
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instalar dependências:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Executar o projeto em modo de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+O projeto estará disponível em `http://localhost:5173`.
+
+## Configuração de ambiente
+
+O projeto está configurado para se comunicar com a API backend em `http://localhost:3000`. Essa URL está definida no arquivo `.env`. Caso a API esteja hospedada em outro endereço, altere essa URL conforme necessário.
+
+## Observações
+
+- Para acessar qualquer rota protegida, é necessário fazer login previamente.
+- O token JWT é armazenado no `localStorage` e enviado automaticamente nas requisições através do `api.ts`.
+- Usuários com perfil `admin` têm acesso à gestão de usuários e exclusão de benchmarks.
