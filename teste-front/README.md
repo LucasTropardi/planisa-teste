@@ -4,7 +4,7 @@ Este é o front-end da aplicação **CovidAnalytics**, um sistema web para compa
 
 ## Funcionalidades
 
-- Tela de login protegida com autenticação JWT
+- Tela de login protegida com autenticação JWT e escolha do idioma da aplicação
 - Página inicial com explicação do sistema
 - Listagem e criação de comparações entre países
 - Visualização de gráficos comparativos (casos, mortes e taxa de letalidade)

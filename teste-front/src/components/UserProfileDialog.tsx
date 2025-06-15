@@ -10,6 +10,7 @@ import {
 import type { User, UserFormData } from "../types/User";
 import { api } from "../api/api";
 import { useAuth } from "../auth/useAuth";
+import { naming } from "../traducao/Naming";
 
 interface Props {
   open: boolean;
@@ -40,7 +41,7 @@ export function UserProfileDialog({ open, onClose }: Props) {
 
   const handleSubmit = async () => {
     if (password && password !== passwordConfirmation) {
-      setError("As senhas não coincidem.");
+      setError(naming.getMessage("senhas_nao_conferem"));
       return;
     }
 
@@ -66,18 +67,18 @@ export function UserProfileDialog({ open, onClose }: Props) {
       onClose();
     } catch (err) {
       setError(
-        "Erro ao atualizar perfil: " +
-          (err instanceof Error ? err.message : "Erro desconhecido")
+        naming.getMessage("erro_atualizar_perfil") +
+          (err instanceof Error ? err.message : naming.getMessage("erro_desconhecido"))
       );
     }
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Editar Perfil</DialogTitle>
+      <DialogTitle>{naming.getField("editar_perfil")}</DialogTitle>
       <DialogContent className="space-y-4 mt-2">
         <TextField
-          label="Nome"
+          label={naming.getField("nome")}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -85,7 +86,7 @@ export function UserProfileDialog({ open, onClose }: Props) {
           onChange={(e) => setNome(e.target.value)}
         />
         <TextField
-          label="Usuário"
+          label={naming.getField("usuario")}
           fullWidth
           variant="outlined"
           margin="dense"
@@ -93,14 +94,14 @@ export function UserProfileDialog({ open, onClose }: Props) {
           onChange={(e) => setUsuario(e.target.value)}
         />
         <TextField
-          label="Nova Senha"
+          label={naming.getField("nova_senha")}
           type="password"
           fullWidth
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <TextField
-          label="Confirmar Nova Senha"
+          label={naming.getField("confirmar_senha")}
           type="password"
           fullWidth
           value={passwordConfirmation}
@@ -109,9 +110,9 @@ export function UserProfileDialog({ open, onClose }: Props) {
         {error && <p className="text-red-600 text-sm">{error}</p>}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
+        <Button onClick={onClose}>{naming.getField("cancelar")}</Button>
         <Button onClick={handleSubmit} variant="contained" color="primary">
-          Salvar
+          {naming.getField("salvar")}
         </Button>
       </DialogActions>
     </Dialog>

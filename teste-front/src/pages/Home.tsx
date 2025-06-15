@@ -1,20 +1,21 @@
 import { Typography, Box, Paper, Link, Divider } from "@mui/material";
 import { useEffect } from "react";
+import { naming } from "../traducao/Naming";
 
 export function Home() {
   
   useEffect(() => {
-    document.title = "CovidAnalytics - Home";
+    document.title = `CovidAnalytics - ${naming.getField("home")}`;
   }, []);
 
   return (
     <Box className="p-6">
       <Typography variant="h4" gutterBottom>
-        Bem-vindo ao CovidAnalytics - Comparações COVID-19
+        {naming.getMessage("titulo_inicial_home")}
       </Typography>
 
       <Typography variant="body1" paragraph>
-        Esta aplicação permite comparar dados de COVID-19 entre dois países, utilizando os dados da API pública disponível em:
+        {naming.getMessage("subtitulo_inicial_home")}
         <Link
           href="https://covid-api.com/api"
           target="_blank"
@@ -27,11 +28,11 @@ export function Home() {
       <Divider className="my-4" />
 
       <Typography variant="h5" gutterBottom>
-        Endpoints da API (Ruby on Rails)
+        {naming.getMessage("segundo_titulo_home")}
       </Typography>
 
       <Typography variant="body1">
-        A autenticação é feita via JWT. Para obter um token, envie uma requisição para:
+        {naming.getMessage("segundo_subtitulo_home")}
       </Typography>
 
       <Paper className="p-4 my-2" variant="outlined">
@@ -39,36 +40,36 @@ export function Home() {
         <pre>
           {`
 {
-  "usuario": "seu_usuario",
-  "password": "sua_senha"
+  "usuario": "${naming.getField("seu_usuario")}",
+  "password": "${naming.getField("sua_senha")}"
 }`
           }
         </pre>
       </Paper>
 
       <Typography variant="body1" paragraph>
-        Após o login, utilize o token retornado no cabeçalho <code>Authorization: Bearer &lt;token&gt;</code>.
+        {naming.getMessage("final_autenticacao1")}<code>Authorization: Bearer &lt;token&gt;</code>.
       </Typography>
 
       <Typography variant="body2" paragraph>
-        Endpoints disponíveis após login:
+        {naming.getMessage("endpoints_disponiveis_login")}
       </Typography>
 
       <Paper className="p-4 my-2" variant="outlined">
         <Typography variant="subtitle2">GET /me</Typography>
-        <Typography variant="body2">Obtém dados do usuário autenticado.</Typography>
+        <Typography variant="body2">{naming.getMessage("obtem_usuario_autenticado")}</Typography>
 
         <Typography variant="subtitle2" className="mt-2">GET /countries</Typography>
-        <Typography variant="body2">Retorna lista de países disponíveis para comparação.</Typography>
+        <Typography variant="body2">{naming.getMessage("retorna_lista_paises")}</Typography>
 
         <Typography variant="subtitle2" className="mt-2">GET /comparisons</Typography>
-        <Typography variant="body2">Lista todas as comparações criadas pelo usuário.</Typography>
+        <Typography variant="body2">{naming.getMessage("lista_todas_comparacoes")}</Typography>
 
         <Typography variant="subtitle2" className="mt-2">GET /comparisons/:id</Typography>
-        <Typography variant="body2">Exibe detalhes e resultados de uma comparação.</Typography>
+        <Typography variant="body2">{naming.getMessage("exibe_detalhes_comparacao")}</Typography>
 
         <Typography variant="subtitle2" className="mt-2">POST /comparisons</Typography>
-        <Typography variant="body2">Cria uma nova comparação entre dois países, precisa de um body como no exemplo abaixo.</Typography>
+        <Typography variant="body2">{naming.getMessage("cria_nova_comparacao")}</Typography>
         <pre>
           {`
 {
@@ -85,7 +86,7 @@ export function Home() {
       </Paper>
 
       <Typography variant="body2" paragraph>
-        Endpoints disponíveis apenas para administradores:
+        {naming.getMessage("endpoints_disponiveis_administrador")}
       </Typography>
 
       <Paper className="p-4 my-2" variant="outlined">
@@ -99,22 +100,22 @@ export function Home() {
       <Divider className="my-4 pt-4" />
 
       <Typography variant="h5" gutterBottom>
-        Funcionalidades do Site
+        {naming.getMessage("funcionalidades_site")}
       </Typography>
 
       <Typography variant="body1" paragraph>
-        Após autenticação, o usuário será direcionado à página inicial. As principais páginas do site são:
+        {naming.getMessage("ultimo_subtitulo_home")}
       </Typography>
 
       <ul className="list-disc ml-6">
         <li>
-          <strong>Usuários:</strong> disponível apenas para administradores. Permite listar, editar e excluir usuários.
+          <strong>{naming.getField("usuarios")}:</strong> {naming.getMessage("usuarios_descricao")}
         </li>
         <li>
-          <strong>Perfil:</strong> qualquer usuário pode editar seu nome, senha e login clicando no nome exibido na Navbar.
+          <strong>{naming.getField("perfil")}:</strong> {naming.getMessage("perfil_descricao")}
         </li>
         <li>
-          <strong>Benchmark:</strong> acessível para todos os logados. Permite cadastrar comparações entre países e visualizar gráficos com os dados extraídos da API pública.
+          <strong>{naming.getField("benchmark")}:</strong> {naming.getMessage("benchmark_descricao")}
         </li>
       </ul>
 

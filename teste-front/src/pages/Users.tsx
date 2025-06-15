@@ -11,6 +11,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import { naming } from "../traducao/Naming";
 
 export function Users() {
   const [users, setUsers] = useState<User[]>([]);
@@ -20,7 +21,7 @@ export function Users() {
   const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = "CovidAnalytics - Usuários";
+    document.title = `CovidAnalytics - ${naming.getField("usuarios")}`;
   }, []);
 
   const fetch = async () => {
@@ -42,7 +43,7 @@ export function Users() {
 
   return (
     <div className="pt-6 pb-6">
-      <h1 className="text-2xl font-bold mb-4">Usuários</h1>
+      <h1 className="text-2xl font-bold mb-4">{naming.getField("usuarios")}</h1>
       <button
         className="mb-4 px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700"
         onClick={() => {
@@ -50,17 +51,17 @@ export function Users() {
           setFormOpen(true);
         }}
       >
-        NOVO USUÁRIO
+        {naming.getField("novo_usuario")}
       </button>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs uppercase bg-gray-50">
             <tr>
-              <th className="px-6 py-3">Nome</th>
-              <th className="px-6 py-3">Usuário</th>
-              <th className="px-6 py-3">Role</th>
-              <th className="px-6 py-3 text-right">Ações</th>
+              <th className="px-6 py-3">{naming.getField("nome")}</th>
+              <th className="px-6 py-3">{naming.getField("usuario")}</th>
+              <th className="px-6 py-3">{naming.getField("role")}</th>
+              <th className="px-6 py-3 text-right">{naming.getField("acoes")}</th>
             </tr>
           </thead>
           <tbody>
@@ -80,7 +81,7 @@ export function Users() {
                 <td className="px-6 py-4">{u.role}</td>
                 <td className="px-6 py-4 text-right space-x-2">
                   <button
-                    title="Editar"
+                    title={naming.getField("editar")}
                     onClick={() => {
                       setUserToEdit(u);
                       setFormOpen(true);
@@ -90,7 +91,7 @@ export function Users() {
                     <EditIcon fontSize="small" />
                   </button>
                   <button
-                    title="Excluir"
+                    title={naming.getField("excluir")}
                     onClick={() => {
                       setUserIdToDelete(u.id);
                       setConfirmDialogOpen(true);
@@ -114,14 +115,14 @@ export function Users() {
       />
 
       <Dialog open={confirmDialogOpen} onClose={() => setConfirmDialogOpen(false)}>
-        <DialogTitle>Confirmar Exclusão</DialogTitle>
+        <DialogTitle>{naming.getMessage("confirmar_exclusao")}</DialogTitle>
         <DialogContent>
-          <p>Tem certeza que deseja excluir este usuário?</p>
+          <p>{naming.getMessage("excluir_usuario")}</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setConfirmDialogOpen(false)}>Cancelar</Button>
+          <Button onClick={() => setConfirmDialogOpen(false)}>{naming.getField("cancelar")}</Button>
           <Button onClick={handleDelete} color="error" variant="contained">
-            Excluir
+            {naming.getField("excluir")}
           </Button>
         </DialogActions>
       </Dialog>

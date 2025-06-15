@@ -10,6 +10,7 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
+import { naming } from "../traducao/Naming";
 
 interface UserFormProps {
   open: boolean;
@@ -81,17 +82,17 @@ export const UserForm = ({ open, onClose, onSave, userToEdit }: UserFormProps) =
       onSave();
       onClose();
     } catch (err) {
-      setErrorDialog({ open: true, message: "Erro ao salvar usuário" + (err instanceof Error ? `: ${err.message}` : "") });
+      setErrorDialog({ open: true, message: naming.getMessage("erro_salvar_usuario") + (err instanceof Error ? `: ${err.message}` : "") });
     }
   };
 
   return (
     <>
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>{userToEdit ? "Editar Usuário" : "Novo Usuário"}</DialogTitle>
+        <DialogTitle>{userToEdit ? naming.getField("editar_usuario") : naming.getField("novo_usuario_menor")}</DialogTitle>
         <DialogContent className="space-y-4 mt-2">
           <TextField
-            label="Nome"
+            label={naming.getField("nome")}
             name="nome"
             fullWidth
             variant="outlined"
@@ -100,14 +101,14 @@ export const UserForm = ({ open, onClose, onSave, userToEdit }: UserFormProps) =
             onChange={handleChange}
           />
           <TextField
-            label="Usuário"
+            label={naming.getField("usuario")}
             name="usuario"
             fullWidth
             value={form.usuario}
             onChange={handleChange}
           />
           <TextField
-            label="Senha"
+            label={naming.getField("senha")}
             name="password"
             type="password"
             fullWidth
@@ -115,7 +116,7 @@ export const UserForm = ({ open, onClose, onSave, userToEdit }: UserFormProps) =
             onChange={handleChange}
           />
           <TextField
-            label="Confirmar Senha"
+            label={naming.getField("confirmar_senha")}
             name="password_confirmation"
             type="password"
             fullWidth
@@ -124,31 +125,33 @@ export const UserForm = ({ open, onClose, onSave, userToEdit }: UserFormProps) =
           />
           <TextField
             select
-            label="Role"
+            label={naming.getField("role")}
             name="role"
             fullWidth
             value={form.role}
             onChange={handleChange}
           >
-            <MenuItem value="user">Usuário</MenuItem>
-            <MenuItem value="admin">Administrador</MenuItem>
+            <MenuItem value="user">{naming.getField("usuario")}</MenuItem>
+            <MenuItem value="admin">{naming.getField("administrador")}</MenuItem>
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Cancelar</Button>
+          <Button onClick={onClose}>{naming.getField("cancelar")}</Button>
           <Button onClick={handleSubmit} variant="contained" color="primary">
-            Salvar
+            {naming.getField("salvar")}
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Dialog para exibir erros */}
       <Dialog open={errorDialog.open} onClose={() => setErrorDialog({ open: false, message: "" })}>
-        <DialogTitle>Atenção</DialogTitle>
+        <DialogTitle>{naming.getField("atencao")}</DialogTitle>
         <DialogContent>
           <p>{errorDialog.message}</p>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setErrorDialog({ open: false, message: "" })} variant="contained" color="primary" autoFocus>
-            Ok
+            {naming.getField("ok")}
           </Button>
         </DialogActions>
       </Dialog>

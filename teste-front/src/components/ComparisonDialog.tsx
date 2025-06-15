@@ -23,6 +23,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { naming } from "../traducao/Naming";
 
 interface Props {
   open: boolean;
@@ -83,16 +84,16 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!form.name) newErrors.name = "Obrigatório";
-    if (!form.country1_iso) newErrors.country1_iso = "Obrigatório";
-    if (!form.country2_iso) newErrors.country2_iso = "Obrigatório";
+    if (!form.name) newErrors.name = naming.getMessage("obrigatorio");
+    if (!form.country1_iso) newErrors.country1_iso = naming.getMessage("obrigatorio");
+    if (!form.country2_iso) newErrors.country2_iso = naming.getMessage("obrigatorio");
     if (form.country1_iso && form.country1_iso === form.country2_iso) {
-      newErrors.country2_iso = "Países devem ser diferentes";
+      newErrors.country2_iso = naming.getMessage("paises_devem_ser_diferentes");
     }
-    if (!form.start_date) newErrors.start_date = "Obrigatório";
-    if (!form.end_date) newErrors.end_date = "Obrigatório";
+    if (!form.start_date) newErrors.start_date = naming.getMessage("obrigatorio");
+    if (!form.end_date) newErrors.end_date = naming.getMessage("obrigatorio");
     if (form.start_date && form.end_date && form.start_date >= form.end_date) {
-      newErrors.end_date = "Data final deve ser após a inicial";
+      newErrors.end_date = naming.getMessage("data_final_maior_inicial");
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -112,7 +113,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
         end_date: response.end_date,
       });
     } catch (err) {
-      alert("Erro ao criar benchmark" + (err instanceof Error ? `: ${err.message}` : ""));
+      alert(naming.getMessage("erro_criar_benchmark") + (err instanceof Error ? `: ${err.message}` : ""));
     } finally {
       setIsLoading(false); // desativa botão
     }
@@ -152,10 +153,10 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>{isViewMode ? "Detalhes do Benchmark" : "Novo Benchmark"}</DialogTitle>
+      <DialogTitle>{isViewMode ? naming.getField("detalhes_benchmark") : naming.getField("novo_benchmark")}</DialogTitle>
       <DialogContent className="space-y-4 mt-2">
         <TextField
-          label="Nome"
+          label={naming.getField("nome")}
           name="name"
           fullWidth
           variant="outlined"
@@ -176,7 +177,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="País 1"
+                label={naming.getField("pais1")}
                 error={!!errors.country1_iso}
                 helperText={errors.country1_iso}
                 fullWidth
@@ -193,7 +194,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="País 2"
+                label={naming.getField("pais2")}
                 error={!!errors.country2_iso}
                 helperText={errors.country2_iso}
                 fullWidth
@@ -205,7 +206,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
 
         <div className="flex gap-4">
           <TextField
-            label="Data Inicial"
+            label={naming.getField("data_inicial")}
             name="start_date"
             type="date"
             fullWidth
@@ -217,7 +218,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
             disabled={isViewMode}
           />
           <TextField
-            label="Data Final"
+            label={naming.getField("data_final")}
             name="end_date"
             type="date"
             fullWidth
@@ -233,7 +234,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
         {createdComparison && (
           <>
             <div className="pt-6 space-y-6">
-              <h3 className="text-lg font-semibold">Casos Confirmados</h3>
+              <h3 className="text-lg font-semibold">{naming.getField("casos_confirmados")}</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={dataByDate}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -246,7 +247,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
                 </LineChart>
               </ResponsiveContainer>
 
-              <h3 className="text-lg font-semibold">Óbitos</h3>
+              <h3 className="text-lg font-semibold">{naming.getField("obitos")}</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={dataByDate}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -259,7 +260,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
                 </LineChart>
               </ResponsiveContainer>
 
-              <h3 className="text-lg font-semibold">Taxa de Letalidade (%)</h3>
+              <h3 className="text-lg font-semibold">{naming.getField("taxa_letalidade")} (%)</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={dataByDate}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -273,7 +274,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
               </ResponsiveContainer>
 
               <div className="mt-6">
-                <h3 className="text-lg font-semibold">Índice de Tendência</h3>
+                <h3 className="text-lg font-semibold">{naming.getField("indice_tendencia")}</h3>
                 <p
                   className={`mt-2 font-semibold ${
                     createdComparison.trend_index === 1
@@ -285,21 +286,21 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
                 >
                   {
                     createdComparison.trend_index === 1
-                      ? "↑ Tendência de crescimento"
+                      ? naming.getMessage("tendencia_crescimento")
                       : createdComparison.trend_index === -1
-                      ? "↓ Tendência de queda"
-                      : "→ Estável"
+                      ? naming.getMessage("tendencia_queda")
+                      : naming.getMessage("estavel")
                   }
                 </p>
               </div>
 
               <div className="mt-4 text-sm text-gray-600">
-                <p><strong>Legenda:</strong></p>
+                <p><strong>{naming.getField("legenda")}</strong></p>
                 <ul className="list-disc ml-6">
-                  <li><span className="text-blue-600 font-semibold">Azul</span>: {form.country1_iso}</li>
-                  <li><span className="text-red-600 font-semibold">Vermelho</span>: {form.country2_iso}</li>
-                  <li>As variações indicam a evolução entre as datas.</li>
-                  <li>O índice de tendência aponta o ritmo de crescimento ou queda.</li>
+                  <li><span className="text-blue-600 font-semibold">{naming.getField("azul")}</span>: {form.country1_iso}</li>
+                  <li><span className="text-red-600 font-semibold">{naming.getField("vermelho")}</span>: {form.country2_iso}</li>
+                  <li>{naming.getMessage("legenda3")}</li>
+                  <li>{naming.getMessage("legenda4")}</li>
                 </ul>
               </div>
             </div>
@@ -314,10 +315,10 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
             color="primary"
             disabled={isLoading}
           >
-            {isLoading ? "Processando..." : "Criar Benchmark"}
+            {isLoading ? naming.getField("processando") : naming.getField("criar_benchmark")}
           </Button>
         )}
-        <Button onClick={onClose}>Fechar</Button>
+        <Button onClick={onClose}>{naming.getField("fechar")}</Button>
       </DialogActions>
     </Dialog>
   );

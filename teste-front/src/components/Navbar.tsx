@@ -11,6 +11,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import { naming } from "../traducao/Naming";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -33,7 +34,7 @@ const Navbar = () => {
             <button
               onClick={() => setProfileDialogOpen(true)}
               className="text-xl font-semibold hover:text-blue-800"
-              title="Editar perfil"
+              title={naming.getField("editar_perfil")}
             >
               {user?.nome}
             </button>
@@ -44,28 +45,28 @@ const Navbar = () => {
               to="/"
               className="text-gray-900 hover:text-blue-700"
             >
-              Home
+              {naming.getField("home")}
             </Link>
             {user?.role === "admin" && (
               <Link
                 to="/users"
                 className="text-gray-900 hover:text-blue-700"
               >
-                Usuários
+                {naming.getField("usuarios")}
               </Link>
             )}
             <Link
               to="/benchmark"
               className="text-gray-900 hover:text-blue-700"
             >
-              Benchmarks
+              {naming.getField("benchmarks")}
             </Link>
           </div>
 
           <button
             onClick={() => setDialogOpen(true)}
             className="flex items-center gap-2 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2"
-            title="Sair"
+            title={naming.getField("sair")}
           >
             <LogoutIcon fontSize="small" />
             
@@ -73,16 +74,16 @@ const Navbar = () => {
         </div>
 
         <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-          <DialogTitle>Confirmar Logout</DialogTitle>
+          <DialogTitle>{naming.getMessage("confirmar_logout")}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Tem certeza de que deseja sair do sistema?
+              {naming.getMessage("confirmar_sair")}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setDialogOpen(false)}>Cancelar</Button>
+            <Button onClick={() => setDialogOpen(false)}>{naming.getField("cancelar")}</Button>
             <Button onClick={handleLogout} color="error" variant="contained">
-              Sair
+              {naming.getField("sair")}
             </Button>
           </DialogActions>
         </Dialog>
