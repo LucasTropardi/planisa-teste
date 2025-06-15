@@ -14,6 +14,36 @@ Este projeto é uma API RESTful desenvolvida com **Ruby on Rails** e **PostgreSQ
 - [PostgreSQL](https://www.postgresql.org/download/)
 - [Bundler](https://bundler.io/)
 
+### Usando PostgreSQL com Docker (opcional)
+
+Se preferir usar um banco PostgreSQL em container, você pode utilizar o docker-compose.yml abaixo para subir o banco com as credenciais esperadas pela aplicação:
+
+```yaml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: testedb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
+- Executar no terminal
+
+```bash
+docker-compose up -d
+```
+
 ### 2. Clonar o projeto
 
 ```bash
@@ -141,3 +171,28 @@ Authorization: Bearer <token>
 - `db/seeds.rb`: cria países e admin inicial
 
 ---
+
+## Testes automatizados (RSpec)
+
+O projeto possui uma suíte de testes de integração utilizando RSpec, cobrindo:
+
+- `/login`: autenticação
+- `/users, /me`: crud de usuários
+- `/countries`: listagem de países
+- `/comparisons`: crud de comparisons
+
+### Executar os testes
+
+- Garantir que o ambiente esteja preparado:
+
+```bash
+RAILS_ENV=test rails db:create db:migrate db:seed
+
+```
+
+- Executa todos os testes:
+
+```bash
+bundle exec rspec
+
+```
