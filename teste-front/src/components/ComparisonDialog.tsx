@@ -24,6 +24,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { naming } from "../traducao/Naming";
+import { CustomTooltip } from "./CustomTooltip";
 
 interface Props {
   open: boolean;
@@ -240,7 +241,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis width={100} tick={{ fontSize: 12 }} />
-                  <Tooltip />
+                  <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Line type="monotone" dataKey={`${form.country1_iso}_confirmed`} stroke="blue" />
                   <Line type="monotone" dataKey={`${form.country2_iso}_confirmed`} stroke="red" />
@@ -253,7 +254,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis width={100} tick={{ fontSize: 12 }} />
-                  <Tooltip />
+                  <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Line type="monotone" dataKey={`${form.country1_iso}_deaths`} stroke="blue" />
                   <Line type="monotone" dataKey={`${form.country2_iso}_deaths`} stroke="red" />
@@ -266,7 +267,7 @@ export function ComparisonDialog({ open, onClose, comparison }: Props) {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis width={100} tick={{ fontSize: 12 }} domain={[0, "dataMax"]} tickFormatter={(v: number) => `${(v * 100).toFixed(2)}%`} />
-                  <Tooltip formatter={(v: number | string) => `${(Number(v) * 100).toFixed(2)}%`} />
+                  <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Line type="monotone" dataKey={`${form.country1_iso}_fatality_rate`} stroke="blue" />
                   <Line type="monotone" dataKey={`${form.country2_iso}_fatality_rate`} stroke="red" />

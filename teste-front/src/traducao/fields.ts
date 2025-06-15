@@ -46,6 +46,7 @@ const fields = {
     legenda: "Legenda",
     azul: "Azul",
     vermelho: "Vermelho",
+    confirmados: "Confirmados",
   },
   en: {
     login: "Login",
@@ -94,6 +95,7 @@ const fields = {
     legenda: "Legend",
     azul: "Blue",
     vermelho: "Red",
+    confirmados: "Confirmed",
   },
   es: {
     login: "Iniciar sesión",
@@ -142,6 +144,7 @@ const fields = {
     legenda: "Leyenda",
     azul: "Azul",
     vermelho: "Rojo",
+    confirmados: "Confirmados",
   },
 };
 
