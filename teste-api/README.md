@@ -47,8 +47,8 @@ docker-compose up -d
 ### 2. Clonar o projeto
 
 ```bash
-git clone <repositorio_no_github>
-cd teste-api
+git clone <https://github.com/LucasTropardi/planisa-teste.git>
+cd planisa-teste/teste-api
 ```
 
 ### 3. Instalar as dependências

@@ -40,8 +40,8 @@ Este é o front-end da aplicação **CovidAnalytics**, um sistema web para compa
 1. Clonar o projeto:
 
 ```bash
-git clone <repositorio_frontend>
-cd teste-front
+git clone <https://github.com/LucasTropardi/planisa-teste.git>
+cd planisa-teste/teste-front
 ```
 
 2. Instalar dependências:
