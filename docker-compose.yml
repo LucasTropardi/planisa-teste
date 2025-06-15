@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_DB: testedb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./teste-api
+    container_name: rails_api
+    environment:
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./teste-api:/app
+    working_dir: /app
+    command: bash -c "bundle exec rails db:prepare && bundle exec rails server -b 0.0.0.0"
+
+volumes:
+  pgdata:

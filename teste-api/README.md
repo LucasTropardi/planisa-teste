@@ -9,7 +9,7 @@ Este projeto é uma API RESTful desenvolvida com **Ruby on Rails** e **PostgreSQ
 
 ### 1. Pré-requisitos
 
-- [Ruby 3.2+](https://www.ruby-lang.org/pt/documentation/installation/)
+- [Ruby 3.4.4](https://www.ruby-lang.org/pt/documentation/installation/)
 - [Rails 8+](https://rubyonrails.org/)
 - [PostgreSQL](https://www.postgresql.org/download/)
 - [Bundler](https://bundler.io/)
@@ -131,9 +131,8 @@ Ao criar uma comparação via `POST /comparisons`, o sistema:
 3. Salva os 4 registros no banco (`results`) com os dados brutos retornados.
 4. Calcula as seguintes **variações percentuais** entre os países (sempre na **data final**):
 
-- `confirmed_variation`: variação de casos confirmados
-- `deaths_variation`: variação de mortes
-- `recovered_variation`: variação de recuperados
+- `confirmed_variation`: variação de casos confirmados entre os dois países na data final (cumulativo)
+- `deaths_variation`: variação de mortes entre os dois países na data final (cumulativo)
 - `fatality_variation`: diferença da taxa de letalidade
 
 Também calcula um campo **`trend_index`** com valor:
